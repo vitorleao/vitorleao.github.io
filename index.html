@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Currículo - Vitor Leão</title>
+    <title>Vitor Leão</title>
     <style>
         :root {
             --bg-color: #121212;
@@ -28,8 +28,8 @@
             height: 200px;
             border-radius: 50%;
             background-color: var(--border-color);
-            display: inline-block;
-            margin-bottom: 20px;
+            display: block;
+            margin: 20px auto;
         }
         .card {
             background-color: var(--card-bg);
@@ -37,6 +37,7 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
             margin-bottom: 20px;
+            text-align: left;
         }
         .top-bar {
             display: flex;
@@ -55,25 +56,42 @@
             width: 24px;
             height: 24px;
         }
+        .links {
+            margin-bottom: 20px;
+        }
+        .links a {
+            color: var(--text-color);
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        .experience-item {
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 <body>
     <div class="top-bar">
         <div>
             <button class="icon-button" onclick="setLanguage('en')">
-                <img src="https://en.wikipedia.org/wiki/United_Kingdom#/media/File:Flag_of_the_United_Kingdom_(1-2).svg" alt="English">
+                <img src="https://upload.wikimedia.org/wikipedia/en/a/a4/Flag_of_the_United_Kingdom.svg" alt="English">
             </button>
             <button class="icon-button" onclick="setLanguage('pt')">
-                <img src="https://pt.wikipedia.org/wiki/Portugal#/media/Ficheiro:Flag_of_Portugal_(alternate).svg" alt="Português">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Flag_of_Portugal.svg" alt="Português">
             </button>
         </div>
         <button class="icon-button" onclick="toggleTheme()">🌙</button>
     </div>
     
     <div class="container">
-        <div class="profile-img"><img src="https://avatars.githubusercontent.com/u/3988158?s=400&u=9b77c5dfbc851bb7c48df0760aaa8c2683144d2c&v=4" alt="English"></div>
+        <img class="profile-img" src="https://avatars.githubusercontent.com/u/3988158?s=400&u=9b77c5dfbc851bb7c48df0760aaa8c2683144d2c&v=4" alt="Foto de perfil">
         <h1 id="name">Vitor Leão</h1>
         <p id="title">Desenvolvedor de Software</p>
+        
+        <div class="links">
+            <a href="#">GitHub</a>
+            <a href="#">LinkedIn</a>
+            <a href="#">Portfólio</a>
+        </div>
         
         <div class="card">
             <h2 id="about-title">Sobre Mim</h2>
@@ -81,12 +99,24 @@
         </div>
         <div class="card">
             <h2 id="experience-title">Experiência</h2>
-            <ul id="experience-list">
-                <li>OLX Brasil - Processamento de transações com AWS SNS e SQS</li>
-                <li>IGS Software - Integração de jogos, MongoDB, ETL</li>
-                <li>Level Up! - Melhorias no CRM</li>
-                <li>Catho - Desenvolvimento de home pages e microsserviços</li>
-            </ul>
+            <div id="experience-list">
+                <div class="experience-item">
+                    <strong>OLX Brasil</strong>
+                    <p>Processamento de transações com AWS SNS e SQS.</p>
+                </div>
+                <div class="experience-item">
+                    <strong>IGS Software</strong>
+                    <p>Integração de jogos, MongoDB, ETL.</p>
+                </div>
+                <div class="experience-item">
+                    <strong>Level Up!</strong>
+                    <p>Melhorias no CRM.</p>
+                </div>
+                <div class="experience-item">
+                    <strong>Catho</strong>
+                    <p>Desenvolvimento de home pages e microsserviços.</p>
+                </div>
+            </div>
         </div>
     </div>
     
@@ -104,28 +134,28 @@
         const translations = {
             en: {
                 name: "Vitor Leão",
-                title: "Software Developer",
+                title: "Software Engineer | Developer",
                 aboutTitle: "About Me",
                 aboutText: "Developer with experience in web applications, distributed systems, messaging, and APIs.",
                 experienceTitle: "Experience",
                 experienceList: [
-                    "OLX Brasil - Transaction processing with AWS SNS and SQS",
-                    "IGS Software - Game integration, MongoDB, ETL",
-                    "Level Up! - CRM improvements",
-                    "Catho - Homepage development and microservices"
+                    { company: "OLX Brasil", description: "Transaction processing with AWS SNS and SQS." },
+                    { company: "IGS Software", description: "Game integration, MongoDB, ETL." },
+                    { company: "Level Up!", description: "CRM improvements." },
+                    { company: "Catho", description: "Homepage development and microservices." }
                 ]
             },
             pt: {
                 name: "Vitor Leão",
-                title: "Desenvolvedor de Software",
+                title: "Engenheiro de Software | Desenvolvedor",
                 aboutTitle: "Sobre Mim",
                 aboutText: "Desenvolvedor com experiência em aplicações web, sistemas distribuídos, mensageria e APIs.",
                 experienceTitle: "Experiência",
                 experienceList: [
-                    "OLX Brasil - Processamento de transações com AWS SNS e SQS",
-                    "IGS Software - Integração de jogos, MongoDB, ETL",
-                    "Level Up! - Melhorias no CRM",
-                    "Catho - Desenvolvimento de home pages e microsserviços"
+                    { company: "OLX Brasil", description: "Processamento de transações com AWS SNS e SQS." },
+                    { company: "IGS Software", description: "Integração de jogos, MongoDB, ETL." },
+                    { company: "Level Up!", description: "Melhorias no CRM." },
+                    { company: "Catho", description: "Desenvolvimento de home pages e microsserviços." }
                 ]
             }
         };
@@ -140,9 +170,10 @@
             const experienceList = document.getElementById("experience-list");
             experienceList.innerHTML = "";
             translations[lang].experienceList.forEach(item => {
-                const li = document.createElement("li");
-                li.textContent = item;
-                experienceList.appendChild(li);
+                const div = document.createElement("div");
+                div.classList.add("experience-item");
+                div.innerHTML = `<strong>${item.company}</strong><p>${item.description}</p>`;
+                experienceList.appendChild(div);
             });
         }
     </script>
